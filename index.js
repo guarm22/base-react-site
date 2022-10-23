@@ -4,7 +4,7 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 
-console.log("\n\nNEW SERVER\n")
+console.log("\nNEW SERVER\n")
 
 // CREATE OUR SERVER
 dotenv.config()
@@ -25,20 +25,18 @@ app.use('/api', top5listsRouter)
 const db = require(__dirname +'/server/db')
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
+if (process.env.NODE_ENV === 'production') {
 
     const path = require('path');
     // Exprees will serve up production assets
     app.use(express.static(path.join(__dirname, "client", "build")));
     app.use(express.static('client'));
-
-    console.log(path.join(__dirname, 'client', 'build') + "\n")
-    console.log((path.resolve(__dirname, "client", "build")) + "\n")
   
     // Express serve up index.html file if it doesn't recognize route
     app.get('/*', (req, res) => {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-  
+    })
+}
 
 // PUT THE SERVER IN LISTENING MODE
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

@@ -14,23 +14,30 @@ function Home() {
     const {auth} = useContext(AuthContext)
     const navigate = useNavigate()
     const [reset, setReset] = useState(0);
-    const [games, setGames] = useState(store.getGames)
+
+    useEffect(() => {
+      store.getGamesByUser();
+  }, []);
 
     let gamesList = [];
     let titles = [];
+    let ids = [];
 
-    for(let i=0; i<games.length; i++) {
-      gamesList[i] = 
-      <Box key={i} className="home-list-item">
-        <Box  onClick={ () => handleGameSelect(i)}> {games[i]['title']} </Box>
+    if(store && store.games) {
+      for(let i=0; i<store.games.length; i++) {
+        gamesList[i] = 
+        <Box key={i} className="home-list-item">
+          <Box  onClick={ () => handleGameSelect(i)}> {store.games[i]['title']} </Box>
 
-        <Box className='home-button-holder'>
-          <Button variant="contained" color="primary" onClick={() => handleEdit(i)}>edit</Button>
-          <Button variant="contained" color="error" onClick={() => handleDelete(games[i]['title'])}>delete</Button>
+          <Box className='home-button-holder'>
+            <Button variant="contained" color="primary" onClick={() => handleEdit(i)}>edit</Button>
+            <Button variant="contained" color="error" onClick={() => handleDelete(store.games[i]['title'])}>delete</Button>
+          </Box>
+
         </Box>
-
-      </Box>
-      titles[i] = games[i]['title'];
+        titles[i] = store.games[i]['title'];
+        ids[i] = store.games[i]['_id']
+      }
     }
 
     function handleReset () {
@@ -38,7 +45,7 @@ function Home() {
     }
 
     function handleGameSelect(i) {
-      store.setCurrentGame(titles[i]);
+      store.setCurrentGame(ids[i]);
       navigate('/play',{})
     }
 
@@ -53,7 +60,7 @@ function Home() {
         return
       }
 
-      store.setCurrentGame(titles[i]);
+      store.setCurrentGame(ids[i]);
       navigate('/create',{})
     }
 

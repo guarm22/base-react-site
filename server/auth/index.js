@@ -1,5 +1,6 @@
 
 const jwt = require("jsonwebtoken")
+const secret= "r(4[CaQ3`N<#8EV~7<K75Rd/ZpfzBkv`m-x]+QnjQcXazr%w"
 
 function authManager() {
     verify = function (req, res, next) {
@@ -13,7 +14,7 @@ function authManager() {
                 })
             }
 
-            const verified = jwt.verify(token, process.env.JWT_SECRET)
+            const verified = jwt.verify(token, secret)
             req.userId = verified.userId;
 
             next();
@@ -29,11 +30,11 @@ function authManager() {
         if(!user) {
             return jwt.sign({
                 userId: null
-            }, process.env.JWT_SECRET);
+            }, secret);
         }
         return jwt.sign({
             userId: user._id
-        }, process.env.JWT_SECRET);
+        }, secret);
     }
 
     return this;

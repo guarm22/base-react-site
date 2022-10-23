@@ -22,7 +22,7 @@ function PlayGameshow() {
       };
 
     const { store } = useContext(GlobalStoreContext)
-    const [game, setGame] = useState(store.getGameByKey(store.getCurrentGame()));
+    const [game, setGame] = useState(store.currentGame);
     const [questions, setQuestions] = useState(game['questions']);
     const [defaultPointVal, setDefaultPointVal] = useState(200);
     const [qOpen, setQOpen] = useState(false);

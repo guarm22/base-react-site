@@ -74,11 +74,11 @@ registerUser = async (req, res) => {
 
 login = async(req, res) => {
     const { email, username, password } = req.body;
-    console.log("hfd")
     const loggedInUser = await User.findOne({ username: username });
     if (!loggedInUser) {
         return res.status(400).json({errorMessage:"User not found"});
     }
+    console.log(req.body)
     const passwordCorrect = await bcrypt.compare(password, loggedInUser.passwordHash);
     if(!passwordCorrect) {
         return res.status(400).json({errorMessage:"Wrong password"});
@@ -124,8 +124,6 @@ getLoggedIn = async (req, res) => {
 }
 
 logout = async(req, res) => {
-    console.log("hd")
-    
     const token = auth.signToken(null);
 
     res.cookie("token", token, {

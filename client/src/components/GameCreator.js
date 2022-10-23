@@ -10,7 +10,7 @@ function GameCreator() {
     const { store } = useContext(GlobalStoreContext)
     const { auth } = useContext(AuthContext)
 
-    const [game, setGame] = useState(store.getGameByKey(store.currentGame));
+    const [game, setGame] = useState(store.currentGame);
     const [questions, setQuestions] = useState(store.currentGame == null ? [] : game['questions']);
     const [categories, setCategories] = useState(6); //TODO: add more than 6 categories
     const [defaultPointVal, setDefaultPointVal] = useState(200);
@@ -28,7 +28,7 @@ function GameCreator() {
 
     const [imageLink, setImageLink] = useState("");
 
-    const [gameName, setGameName] = useState(store.getCurrentGame() == null ? "default" : game['title']);
+    const [gameName, setGameName] = useState(store.currentGame == null ? "default" : game['title']);
 
     const navigate = useNavigate()
 
@@ -91,9 +91,8 @@ function GameCreator() {
         let newListItem = listItem;
         newListItem[0] = categoryNames;
         //category names are save in newlistitem[0]
-        let savedGame = {title: gameName, user:auth.user.username, questions:newListItem}
-        store.saveGame(savedGame);
-        navigate('/',{})
+        let savedGame = {title: gameName, creator:auth.user.username, questions:newListItem}
+        store.createNewGame(savedGame);
     }
 
     function handleChangeName(event) {
@@ -179,9 +178,6 @@ function GameCreator() {
         <TextField id="outlined-basic" label="Category" variant="outlined" value={text} onChange={handleChange}></TextField>
         <Button variant="contained" color="primary" onClick={handleSaveCat}>Save Question</Button>
     </Box>
-
-    const [games, setGames] = useState(store.getGames());
-    
 
     return (
       <Box className="play">
