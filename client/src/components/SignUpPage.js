@@ -34,8 +34,8 @@ function SignUpPage() {
             password:password,
             passwordVerify:password
         }
-
         auth.registerUser(userData)
+        store.setPage("/")
     }
 
     return (

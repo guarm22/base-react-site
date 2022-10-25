@@ -24,14 +24,11 @@ function GameCreator() {
 
     const [catEditorDisabled, setCatEditorDisabled] = useState(true);
     const [category, setCategory] = useState(0);
-    const [catText, setCatText] = useState("");
 
     const [imageLink, setImageLink] = useState("");
 
     const [gameName, setGameName] = useState(store.currentGame == null ? "default" : game['title']);
-
-    const navigate = useNavigate()
-
+    
     function handleClick(list, item) {
         if(editorDisabled && catEditorDisabled) {
             setCurrentItem([list, item]);

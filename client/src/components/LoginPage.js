@@ -1,12 +1,10 @@
 import { Button, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import "../App.css"
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+
 import AuthContext from '../auth';
 
 function LoginPage() {
@@ -30,8 +28,8 @@ function LoginPage() {
             username: username,
             password:password,
         }
-
         auth.setLoggedIn(userData)
+        store.setPage("/")
     }
 
     return (

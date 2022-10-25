@@ -1,6 +1,5 @@
-import { Button, Grid } from '@mui/material';
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import "../App.css"

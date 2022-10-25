@@ -1,13 +1,11 @@
 import '../App.css';
 import Box from '@mui/material/Box';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom'
 import { Button } from '@mui/material';
 import "../App.css"
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../auth';
 import GlobalStoreContext from '../store';
-import { createTheme } from '@mui/material/styles';
 
 
 function Banner() {

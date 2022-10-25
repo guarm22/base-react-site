@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import "../App.css"
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';

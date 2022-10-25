@@ -20,13 +20,15 @@ function AuthContextProvider(props) {
         loggedIn: false,
         successfulRegister: true,
         error: null,
+        loading: true
     });
 
     const history = useNavigate();
 
     useEffect(() => {
         auth.getLoggedIn();
-    }, [auth]);
+        
+    }, []);
 
     const authReducer = (action) => {
         const {type, payload} = action;

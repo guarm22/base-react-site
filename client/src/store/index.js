@@ -1,6 +1,5 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import api, { getGamesByUser } from '../api'
-import DBManager from '../db/DBManager';
 import AuthContext from '../auth'
 import { useNavigate } from 'react-router-dom';
 
@@ -13,15 +12,29 @@ export const GlobalStoreActionType = {
     SET_PAGE: "SET_PAGE",
 }
 
+
 function GlobalStoreContextProvider(props) {
     const {auth} = useContext(AuthContext)
     const navigate = useNavigate()
+
+    // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
+    const [store, setStore] = useState({
+        currentGame: null,
+        games: null,
+        page: "/",
+    });
+
+    useEffect(() => {
+        console.log(auth)
+        store.getGamesByUser()
+    }, [])
+    
 
     const storeReducer = (action) => {
         const {type, payload} = action
         switch(type) {
             case GlobalStoreActionType.CHANGE_CURRENT_GAME: {
-                console.log(payload.currentGame)
+
                 return setStore({
                     currentGame: payload.currentGame,
                     games: store.games,
@@ -49,13 +62,6 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
-    const [store, setStore] = useState({
-        currentGame: null,
-        games: null,
-        page: "/"
-    });
-
     store.setPage = function(page) {
         storeReducer({
             type:GlobalStoreActionType.SET_PAGE,
@@ -64,6 +70,7 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.getGamesByUser = async function() {
+
         if(!auth.user) {
             return
         }
@@ -110,9 +117,7 @@ function GlobalStoreContextProvider(props) {
             getGamesByUser()
             return true;
         } 
-    }
-
-    let db = new DBManager();
+    } 
 
     store.setCurrentGame = function(newGame) {
 
