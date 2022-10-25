@@ -6,25 +6,35 @@ import { Button } from '@mui/material';
 import "../App.css"
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../auth';
+import GlobalStoreContext from '../store';
+import { createTheme } from '@mui/material/styles';
+
 
 function Banner() {
     const {auth} = useContext(AuthContext)
+    const navigate = useNavigate();
+    const {store} = useContext(GlobalStoreContext)
 
     function handleLogout() {
         auth.logoutUser();
+    } 
+
+    function handleButton(page) {
+        store.setPage(page)
+        navigate(page, {})
     }
 
-    let loginButton = true ? <Link to="/login">Login</Link> :
+    let loginButton = store.page!="/login" ? <Button variant="contained" onClick={() => handleButton("/login")}>Login</Button> :
     <Box></Box>
-    let signUpButton = true ? <Link to="/signup">Sign Up</Link> :
+    let signUpButton = store.page!="/signUp" ? <Button variant="contained" onClick={() => handleButton("/signUp")}>Sign Up</Button> :
     <Box></Box>
 
-    let accBox = <Box marginRight="10px">{loginButton}    {signUpButton}</Box>
+    let accBox = <Box marginRight="10px">{loginButton} {signUpButton}</Box>
 
 
     if(auth.loggedIn) {
         accBox = <Box className="horizontal-list">
-                    <Box paddingRight="10px">{auth.user.username}</Box>
+                    <Box paddingRight="15px" paddingTop="7px">{auth.user.username}</Box>
                     <Button variant="contained"  onClick={handleLogout}>Log out</Button>
                 </Box>
     }
@@ -34,7 +44,7 @@ function Banner() {
         <Box sx={{ flexGrow: 1 }} >
             <Box className="banner">
 
-            <Link to="/">Gameshow</Link>    
+            <Button color="inherit" variant="outlined" onClick={() => handleButton("/")}>Gameshow</Button>    
             {accBox}        
             </Box>
         </Box>

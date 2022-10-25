@@ -29,21 +29,54 @@ createGame = async(req, res) => {
 
 getGamesByUser = async(req, res) => {
     const{ username } = req.body
-    console.log(req.body)
-    await Game.find({creator: username}, function(err, game) {
+    await Game.find({creator: username}, function(err, games) {
         return res.status(200).json({
             success:true,
-            games:game
+            games:games
         })
     }).catch(err => console.log(err))
+}
+
+saveGame = async(req, res) => {
+    const { _id, questions, creator, title } = req.body
+
+    await Game.findOneAndUpdate({_id: _id}, {
+        _id: _id,
+        questions: questions,
+        creator: creator,
+        title: title
+    }, function (err, docs) {
+        if(err) {
+
+        }
+        else {
+            return res.status(200).json({
+                success:true,
+                game:docs
+            })
+        }
+    })
 }
 
 getGame = async (req,res) => {
     console.log('TODO')
 }
 
+deleteGame = async(req,res) => {
+    const {_id} = req.body
+    console.log(_id)
+    await Game.deleteOne({_id: _id}, function(err) {
+        return res.status(200).json({
+            success: true,
+            deleted: true
+        })
+    }).catch(err => console.log(err));
+}
+
 module.exports = {
     getGame,
     getGamesByUser,
     createGame,
+    deleteGame,
+    saveGame
 }

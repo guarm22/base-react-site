@@ -51,7 +51,8 @@ html {background-color: rgba(88, 80, 245, 0.396)}
   flex-direction: row;
   justify-content: space-between;
   min-height: 40px;
-  padding-top: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   padding-left: 20px;
   padding-right: 20px;
   background-color: #0a97be;

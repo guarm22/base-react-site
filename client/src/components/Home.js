@@ -13,11 +13,15 @@ function Home() {
     const { store } = useContext(GlobalStoreContext)
     const {auth} = useContext(AuthContext)
     const navigate = useNavigate()
-    const [reset, setReset] = useState(0);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-      store.getGamesByUser();
+      store.getGamesByUser().then(setLoading(false));
   }, []);
+
+    useEffect(() => {
+      store.getGamesByUser().then(setLoading(false));
+    }, [loading] )
 
     let gamesList = [];
     let titles = [];
@@ -25,13 +29,13 @@ function Home() {
 
     if(store && store.games) {
       for(let i=0; i<store.games.length; i++) {
-        gamesList[i] = 
+        gamesList[i] =  
         <Box key={i} className="home-list-item">
           <Box  onClick={ () => handleGameSelect(i)}> {store.games[i]['title']} </Box>
 
           <Box className='home-button-holder'>
             <Button variant="contained" color="primary" onClick={() => handleEdit(i)}>edit</Button>
-            <Button variant="contained" color="error" onClick={() => handleDelete(store.games[i]['title'])}>delete</Button>
+            <Button variant="contained" color="error" onClick={() => handleDelete(store.games[i]['_id'])}>delete</Button>
           </Box>
 
         </Box>
@@ -40,18 +44,15 @@ function Home() {
       }
     }
 
-    function handleReset () {
-      store.setCurrentGame("");
-    }
-
     function handleGameSelect(i) {
       store.setCurrentGame(ids[i]);
+      store.setPage("/play") 
       navigate('/play',{})
     }
 
-    function handleDelete(title) {
-      store.deleteGame(title);
-      setReset(reset+1);
+    function handleDelete(id) {
+      store.deleteGame(id);   
+      setLoading((loading) => !loading)
     }
 
     function handleEdit(i) {
@@ -59,9 +60,8 @@ function Home() {
         alert("Please log in")
         return
       }
-
+      store.setPage("/create")
       store.setCurrentGame(ids[i]);
-      navigate('/create',{})
     }
 
     function handleCreate() {
@@ -69,7 +69,7 @@ function Home() {
         alert("Please log in")
         return
       }
-      alert("WARNING: \nthis version of website is only saving gameshows locally! \nfuture versions will save gameshows online!\nyour local gameshows will NOT be carried over")
+      store.setPage("/create")
       navigate('/create', {}); 
     }
 
@@ -80,10 +80,6 @@ function Home() {
         <Box className='home-button-holder'>
           <Button onClick={handleCreate} to="/create" variant="contained" color="primary">
               Create New Gameshow
-          </Button>
-
-          <Button onClick={handleReset} variant="contained" color="error">
-              Reset Current Game
           </Button>
         </Box>
 

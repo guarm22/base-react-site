@@ -12,7 +12,7 @@ export const updateUser = (payload) => api.put(`/user/`, payload)
 
 export const createGame = (payload) => api.post(`/game/`, payload)
 export const saveGame = (payload) => api.put(`/game/`, payload)
-export const deleteGame = (payload) => api.delete(`/game/`, payload)
+export const deleteGame = (payload) => api.delete(`/game/`, {data: {_id: payload}})
 export const getGame = (payload) => api.game(`/game/`, payload)
 export const getGamesByUser = (payload) => api.post(`/games/`, payload)
 

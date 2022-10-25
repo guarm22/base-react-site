@@ -79,6 +79,7 @@ function GameCreator() {
         setCatEditorDisabled(!catEditorDisabled);
     }
 
+
     function handleSaveCat() {
         let newCatNames = categoryNames;
         newCatNames[category] = text;
@@ -92,15 +93,23 @@ function GameCreator() {
         newListItem[0] = categoryNames;
         //category names are save in newlistitem[0]
         let savedGame = {title: gameName, creator:auth.user.username, questions:newListItem}
+
+        
+        if(store.currentGame) {
+            savedGame = {_id: store.currentGame._id, title: gameName, creator:auth.user.username, questions:newListItem}
+            store.editGame(savedGame)
+            return;
+        }
+
         store.createNewGame(savedGame);
     }
 
     function handleChangeName(event) {
         setGameName(event.target.value);
-    }
+    }  
+
 
     useEffect(() => {
-
         if(store.currentGame != null) {
             for(let i=1; i<categories+1; i++){  
                 for(let j=1; j<6; j++) {
@@ -111,13 +120,13 @@ function GameCreator() {
         }
 
         else {
-        for(let i=1; i<categories+1; i++){  
-            for(let j=1; j<6; j++) {
-                listItem[i][j] = {score:defaultPointVal*j, question:"test question", answer:"test answer",
-            imgsrc:""};
+            for(let i=1; i<categories+1; i++){  
+                for(let j=1; j<6; j++) {
+                    listItem[i][j] = {score:defaultPointVal*j, question:"what is love", answer:"baby dont hurt me",
+                imgsrc:""};
+                }
             }
         }
-    }
     }, []);
 
 
@@ -132,7 +141,7 @@ function GameCreator() {
             <Box key={"list-" + i + "-item-" + j}
             className = "question-boxes"
             border="3px solid gray"
-            text-textAlign="center"
+            textAlign="center"
             onClick = {() => handleClick(i,j)}>
                 {defaultPointVal*j + ""}
             </Box>;
@@ -149,7 +158,7 @@ function GameCreator() {
         catLists[i] = 
         <Box key = {"list-" + i} className="categories">
 
-            <Box className="category-box" onClick={(() => handleCatClick(i))}>{categoryNames[i]}</Box>
+            <Box className="category-box" onClick={() => handleCatClick(i)}>{categoryNames[i]}</Box>
 
             <Box className='question-box'>
                 {catItems[i]}

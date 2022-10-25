@@ -12,6 +12,8 @@ router.get('/logout', UserController.logout)
 router.post('/games', GameController.getGamesByUser)
 router.post('/game', GameController.createGame)
 router.get('/game', GameController.getGame)
+router.delete('/game', GameController.deleteGame)
+router.put('/game', GameController.saveGame)
 
 
 module.exports = router

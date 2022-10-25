@@ -61,10 +61,7 @@ registerUser = async (req, res) => {
             sameSite: "none"
         }).status(200).json({
             success: true,
-            user: {
-                username: savedUser.username,
-                email: savedUser.email,
-            }
+            user: loggedInUser
         }).send();
     } catch (err) {
         console.error(err);
@@ -96,10 +93,7 @@ login = async(req, res) => {
         sameSite: "none"
     }).status(200).json({
         success: true,
-        user: {
-            username: loggedInUser.username,
-            email: loggedInUser.email,
-        }
+        user: loggedInUser
     }).send();
 }
 
@@ -115,10 +109,7 @@ getLoggedIn = async (req, res) => {
 
         return res.status(200).json({
             loggedIn: true,
-            user: {
-                email: loggedInUser.email,
-                username: loggedInUser.username,
-            }
+            user: loggedInUser
         })
     })
 }
