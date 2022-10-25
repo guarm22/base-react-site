@@ -45,8 +45,8 @@ function Home() {
     }
 
     function handleGameSelect(i) {
-      store.setCurrentGame(ids[i]);
       store.setPage("/play") 
+      store.setCurrentGame(ids[i]);
       navigate('/play',{})
     }
 

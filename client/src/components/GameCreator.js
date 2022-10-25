@@ -142,6 +142,7 @@ function GameCreator() {
             className = "question-boxes"
             border="3px solid gray"
             textAlign="center"
+            
             onClick = {() => handleClick(i,j)}>
                 {defaultPointVal*j + ""}
             </Box>;
@@ -158,7 +159,7 @@ function GameCreator() {
         catLists[i] = 
         <Box key = {"list-" + i} className="categories">
 
-            <Box className="category-box" onClick={() => handleCatClick(i)}>{categoryNames[i]}</Box>
+            <Box className="category-box" onClick={() => handleCatClick(i)}><div className='catText'>{categoryNames[i]}</div></Box>
 
             <Box className='question-box'>
                 {catItems[i]}
@@ -178,21 +179,21 @@ function GameCreator() {
 
     let imageEditor = editorDisabled ? "" : 
     <Box  className="horizontal-list-creator" paddingTop="2%">
-        <TextField id="outlined-basic" label="Image" variant="outlined" value={imageLink} onChange={handleImageChange}></TextField>
+        <TextField id="outlined-basic" label="Image Link" variant="outlined" value={imageLink} onChange={handleImageChange}></TextField>
         <Button variant="contained" color="primary" onClick={handleSaveQuestion}>Save Question</Button>
     </Box>
 
     let catEditor = catEditorDisabled ? "" : 
-    <Box>
+    <Box className="horizontal-list-creator" paddingTop="5%">
         <TextField id="outlined-basic" label="Category" variant="outlined" value={text} onChange={handleChange}></TextField>
         <Button variant="contained" color="primary" onClick={handleSaveCat}>Save Question</Button>
     </Box>
 
     return (
       <Box className="play">
-        <Box paddingBottom="1%">if you leave this page before you click save, everything will reset</Box>
+        <Box paddingBottom="1%">if you leave this page before you click SAVE GAME, everything will reset</Box>
         <TextField id="outlined-basic" label="Gameshow Title" variant="outlined" value={gameName} onChange={handleChangeName}></TextField>
-        <Box paddingBottom="1%">click on number/catergory to edit question/category, save to edit another question</Box>
+        <Box paddingBottom="1%">Click on a number/catergory to edit question/category, save to edit another question</Box>
 
         <Box className="horizontal-list">
             {catLists}
@@ -208,8 +209,8 @@ function GameCreator() {
             {catEditor}
         </Box>
 
-        <Box paddingTop="1%">
-            <Button variant="contained" color="primary" onClick={handleSaveGame}>Save Game</Button>
+        <Box paddingTop="5%">
+            <Button variant="contained" color="error" onClick={handleSaveGame}>Save Game</Button>
         </Box>
       </Box>
     );

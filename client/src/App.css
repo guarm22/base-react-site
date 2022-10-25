@@ -26,6 +26,7 @@
   justify-content: center;
   align-items: center;
   word-wrap: break-word;
+  padding-top: 2%;
 }
 
 .login-page {
@@ -85,6 +86,7 @@ div.image::before {
   align-items: center;
   margin-left: 25px;
   margin-top: 10px;
+  word-wrap: break-word;
 }
 
 .category-box {
@@ -93,11 +95,33 @@ div.image::before {
   color:white;
   min-width: 150px;
   max-width: 150px;
-  min-height: 75px;
-  max-height: 75px;
+  min-height: 90px;
+  max-height: 90px;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-overflow:inherit;
+  word-wrap:break-word;
+}
+
+.category-box-game {
+  border:3px solid gray;
+  background-color:blue;
+  color:white;
+  min-width: 150px;
+  max-width: 150px;
+  min-height: 120px;
+  max-height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-overflow:inherit;
+  word-wrap:break-word;
+}
+
+.catText {
+  max-width: 150px;
+  word-wrap: break-word;
 }
 
 .question-box {
@@ -105,7 +129,7 @@ div.image::before {
 }
 
 .question-boxes {
-  padding-top:5px;
+  padding-top:15px;
   min-width:150px;
   margin-top: 10px;
   background-color:blue;

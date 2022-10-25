@@ -37,8 +37,8 @@ function LoginPage() {
     return (
         <Box className="login-page">
             <Box className="vertical-list">
-                <TextField label="username" onChange={handleUsernameChange} value = {username}></TextField>
-                <TextField label="password" onChange={handlePasswordChange} value={password}></TextField>
+                <TextField label="Username" onChange={handleUsernameChange} value = {username}></TextField>
+                <TextField label="Password" type="password" onChange={handlePasswordChange} value={password}></TextField>
                 <Button variant="contained" onClick={handleLogin}>Login</Button>
             </Box>
 

@@ -20,6 +20,7 @@ function Banner() {
     } 
 
     function handleButton(page) {
+
         store.setPage(page)
         navigate(page, {})
     }

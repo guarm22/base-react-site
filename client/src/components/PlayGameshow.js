@@ -31,7 +31,8 @@ function PlayGameshow() {
     const [onAnswer, setOnAnswer] = useState(false);
     const [image, setImage] = useState("")
     const [answered, setAnswered] = useState([[],[false,false,false,false,false,false,false],[
-      false,false,false,false,false,false,false],[false,false,false,false,false,false,false],[false,false,false,false,false,false,false],[false,false,false,false,false,false,false],[false,false,false,false,false,false,false]])
+      false,false,false,false,false,false,false],[false,false,false,false,false,false,false],
+      [false,false,false,false,false,false,false],[false,false,false,false,false,false,false],[false,false,false,false,false,false,false]])
 
     let catItems = [];
 
@@ -84,8 +85,8 @@ function PlayGameshow() {
         catLists[i] = 
         <Box key = {"list-" + i} className="categories" >
 
-          <Box className="category-box">
-            <h3>{questions[0][i]}</h3>
+          <Box className="category-box-game">
+            <h3 className='catText'>{questions[0][i]}</h3>
           </Box>
 
           <Box className="question-box">
@@ -112,7 +113,7 @@ function PlayGameshow() {
       >
         <Box sx={style}>
 
-          <Typography >
+          <Typography fontSize="32px">
             {img}
             <Box className="qmodal-text">{text}</Box>
           </Typography>

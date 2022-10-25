@@ -1,7 +1,7 @@
 {
 "proxy": "http://localhost:4000",
     "name": "gameshow",
-    "version": "0.1.0",
+    "version": "server 1.0",
     "private": true,
     "dependencies": {
       "bcryptjs": "^2.4.3",
