@@ -30,18 +30,21 @@ function PlayGameshow() {
     const [currentQuestion, setCurrentQuestion] = useState([])
     const [onAnswer, setOnAnswer] = useState(false);
     const [image, setImage] = useState("")
+    const [videoLink, setVideoLink] = useState("")
     const [answered, setAnswered] = useState([[],[false,false,false,false,false,false,false],[
       false,false,false,false,false,false,false],[false,false,false,false,false,false,false],
       [false,false,false,false,false,false,false],[false,false,false,false,false,false,false],[false,false,false,false,false,false,false]])
 
     let catItems = [];
-
+ 
     function handleClick(list, item) {
+      console.log(questions[list][item])
         let temp = answered;
         temp[list][item] = true;
         setAnswered(temp)
 
         setText(questions[list][item]['question'])
+        setVideoLink(questions[list][item]['videoLink'])
         setCurrentQuestion([list, item])
         setQOpen(true);
     }
@@ -54,8 +57,8 @@ function PlayGameshow() {
 
     function handleClose() {
       setImage("")
-        setQOpen(false);
-        setOnAnswer(false);
+      setQOpen(false);
+      setOnAnswer(false);
     }
     
     for(let i=1; i<6+1; i++){
@@ -99,6 +102,22 @@ function PlayGameshow() {
     <Button onClick={handleClose}>Close</Button> : 
     <Button onClick={handleAnswer}>Answer</Button>
 
+    let video = !onAnswer ?
+    videoLink == "" ?  <Box></Box>
+              : 
+              <Box className = "wrapper">
+                <Box className="frame-container">
+                    <iframe
+                    src={videoLink}
+                    frameborder='0'
+                    allow='autoplay; encrypted-media'
+                    allowfullscreen
+                    title='video'
+                    />
+                </Box>
+              </Box>
+              : <Box></Box>
+
     let img = onAnswer ? 
               image == "" ?  <Box></Box>
               : <img className='image' src={image}></img>
@@ -114,6 +133,7 @@ function PlayGameshow() {
         <Box sx={style}>
 
           <Typography fontSize="32px">
+            {video}
             {img}
             <Box className="qmodal-text">{text}</Box>
           </Typography>

@@ -26,6 +26,7 @@ function GameCreator() {
     const [category, setCategory] = useState(0);
 
     const [imageLink, setImageLink] = useState("");
+    const [videoLink, setVideoLink] = useState("");
 
     const [gameName, setGameName] = useState(store.currentGame == null ? "default" : game['title']);
     
@@ -34,7 +35,8 @@ function GameCreator() {
             setCurrentItem([list, item]);
             setText(listItem[list][item]['question']);
             setAnswerText(listItem[list][item]['answer']);
-            setImageLink(listItem[list][item]['imgsrc'])
+            setImageLink(listItem[list][item]['imgsrc']);
+            setVideoLink(listItem[list][item]['videoLink'])
         }
         else {
             alert("please save before doing something else");
@@ -54,11 +56,15 @@ function GameCreator() {
     function handleImageChange(event) {
         setImageLink(event.target.value);
     }
+
+    function handleVideoChange(event) {
+        setVideoLink(event.target.value);
+    }
     
     function handleSaveQuestion() {
         let newListItem = JSON.parse(JSON.stringify(listItem));
         newListItem[currentItem[0]][currentItem[1]] = {score:currentItem[0]*200, question:text, 
-            answer:answerText, imgsrc:imageLink};
+            answer:answerText, imgsrc:imageLink, videoLink:videoLink};
         setListItem(newListItem);
         setEditorDisabled(!editorDisabled);
     }
@@ -84,12 +90,13 @@ function GameCreator() {
         setCatEditorDisabled(!catEditorDisabled);
     }
 
-    //saves game to local storage
+    //saves game to database
     function handleSaveGame() {
         let newListItem = listItem;
         newListItem[0] = categoryNames;
         //category names are save in newlistitem[0]
         let savedGame = {title: gameName, creator:auth.user.username, questions:newListItem}
+        console.log(newListItem)
 
         
         if(store.currentGame) {
@@ -110,7 +117,12 @@ function GameCreator() {
         if(store.currentGame != null) {
             for(let i=1; i<categories+1; i++){  
                 for(let j=1; j<6; j++) {
-                    listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer'], imgsrc:questions[i][j]['imgsrc']};
+                    if(questions[i][j]['videoLink'] == undefined) {
+                        listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer'], imgsrc:questions[i][j]['imgsrc'], videoLink:""};
+                    }
+                    else {
+                        listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer'], imgsrc:questions[i][j]['imgsrc'], videoLink:questions[i][j]['videoLink']};
+                    }
                 }
             }
             setCategoryNames(["",questions[0][1],questions[0][2],questions[0][3],questions[0][4],questions[0][5],questions[0][6]])
@@ -120,7 +132,7 @@ function GameCreator() {
             for(let i=1; i<categories+1; i++){  
                 for(let j=1; j<6; j++) {
                     listItem[i][j] = {score:defaultPointVal*j, question:"what is love", answer:"baby dont hurt me",
-                imgsrc:""};
+                imgsrc:"", videoLink:""};
                 }
             }
         }
@@ -177,6 +189,11 @@ function GameCreator() {
     let imageEditor = editorDisabled ? "" : 
     <Box  className="horizontal-list-creator" paddingTop="2%">
         <TextField id="outlined-basic" label="Image Link" variant="outlined" value={imageLink} onChange={handleImageChange}></TextField>
+    </Box>
+
+    let videoEditor = editorDisabled ? "" : 
+    <Box  className="horizontal-list-creator" paddingTop="2%">
+        <TextField id="outlined-basic" label="Video Link" variant="outlined" value={videoLink} onChange={handleVideoChange}></TextField>
         <Button variant="contained" color="primary" onClick={handleSaveQuestion}>Save Question</Button>
     </Box>
 
@@ -188,9 +205,9 @@ function GameCreator() {
 
     return (
       <Box className="play">
-        <Box paddingBottom="1%">if you leave this page before you click SAVE GAME, everything will reset</Box>
         <TextField id="outlined-basic" label="Gameshow Title" variant="outlined" value={gameName} onChange={handleChangeName}></TextField>
-        <Box paddingBottom="1%">Click on a number/catergory to edit question/category, save to edit another question</Box>
+        <Box paddingBottom="2px">Click on a number/catergory to edit question/category, save to edit another question</Box>
+        <Box paddingBottom="2px">IMPORTANT INFORMATION FOR VIDEO LINK: to get link click "share" on youtube video then select "embed" then copy the link after "src" in the code</Box>
 
         <Box className="horizontal-list">
             {catLists}
@@ -200,6 +217,7 @@ function GameCreator() {
             {questionEditor}
             {answerEditor}
             {imageEditor}
+            {videoEditor}
         </Box>
 
         <Box>
