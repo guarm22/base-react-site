@@ -31,6 +31,7 @@ function PlayGameshow() {
     const [onAnswer, setOnAnswer] = useState(false);
     const [image, setImage] = useState("")
     const [videoLink, setVideoLink] = useState("")
+    const [questionImage, setQuestionImage] = useState("");
     const [answered, setAnswered] = useState([[],[false,false,false,false,false,false,false],[
       false,false,false,false,false,false,false],[false,false,false,false,false,false,false],
       [false,false,false,false,false,false,false],[false,false,false,false,false,false,false],[false,false,false,false,false,false,false]])
@@ -45,6 +46,7 @@ function PlayGameshow() {
 
         setText(questions[list][item]['question'])
         setVideoLink(questions[list][item]['videoLink'])
+        setQuestionImage(questions[list][item]['questionImageLink'])
         setCurrentQuestion([list, item])
         setQOpen(true);
     }
@@ -123,6 +125,11 @@ function PlayGameshow() {
               : <img className='image' src={image}></img>
               : <Box></Box>
 
+    let qImg = !onAnswer ? 
+      questionImage == "" ?  <Box></Box>
+      : <img className='image' src={questionImage}></img>
+      : <Box></Box>
+
     let modal = qOpen ? 
     <Box>
       <Modal
@@ -132,9 +139,10 @@ function PlayGameshow() {
       >
         <Box sx={style}>
 
-          <Typography fontSize="32px">
-            {video}
+          <Typography fontSize="20px">
+            {qImg}
             {img}
+            {video}
             <Box className="qmodal-text">{text}</Box>
           </Typography>
           {button}

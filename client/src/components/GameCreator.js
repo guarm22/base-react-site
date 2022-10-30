@@ -26,6 +26,7 @@ function GameCreator() {
     const [category, setCategory] = useState(0);
 
     const [imageLink, setImageLink] = useState("");
+    const [questionImageLink, setQuestionImageLink] = useState("");
     const [videoLink, setVideoLink] = useState("");
 
     const [gameName, setGameName] = useState(store.currentGame == null ? "default" : game['title']);
@@ -36,7 +37,8 @@ function GameCreator() {
             setText(listItem[list][item]['question']);
             setAnswerText(listItem[list][item]['answer']);
             setImageLink(listItem[list][item]['imgsrc']);
-            setVideoLink(listItem[list][item]['videoLink'])
+            setVideoLink(listItem[list][item]['videoLink']);
+            setQuestionImageLink(listItem[list][item]['questionImageLink'])
         }
         else {
             alert("please save before doing something else");
@@ -61,10 +63,14 @@ function GameCreator() {
         setVideoLink(event.target.value);
     }
     
+    function handleQuestionImageChange(event) {
+        setQuestionImageLink(event.target.value);
+    }
+    
     function handleSaveQuestion() {
         let newListItem = JSON.parse(JSON.stringify(listItem));
         newListItem[currentItem[0]][currentItem[1]] = {score:currentItem[0]*200, question:text, 
-            answer:answerText, imgsrc:imageLink, videoLink:videoLink};
+            answer:answerText, imgsrc:imageLink, videoLink:videoLink, questionImageLink: questionImageLink};
         setListItem(newListItem);
         setEditorDisabled(!editorDisabled);
     }
@@ -118,10 +124,12 @@ function GameCreator() {
             for(let i=1; i<categories+1; i++){  
                 for(let j=1; j<6; j++) {
                     if(questions[i][j]['videoLink'] == undefined) {
-                        listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer'], imgsrc:questions[i][j]['imgsrc'], videoLink:""};
+                        listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer'], imgsrc:questions[i][j]['imgsrc'], 
+                        videoLink:"", questionImageLink: ""};
                     }
                     else {
-                        listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer'], imgsrc:questions[i][j]['imgsrc'], videoLink:questions[i][j]['videoLink']};
+                        listItem[i][j] = {score:defaultPointVal*j, question:questions[i][j]['question'], answer:questions[i][j]['answer'], imgsrc:questions[i][j]['imgsrc'], 
+                        videoLink:questions[i][j]['videoLink'], questionImageLink:questions[i][j]['questionImageLink']};
                     }
                 }
             }
@@ -191,6 +199,11 @@ function GameCreator() {
         <TextField id="outlined-basic" label="Image Link" variant="outlined" value={imageLink} onChange={handleImageChange}></TextField>
     </Box>
 
+    let questionImageEditor = editorDisabled ? "" : 
+    <Box  className="horizontal-list-creator" paddingTop="2%">
+        <TextField id="outlined-basic" label="Question Image Link" variant="outlined" value={questionImageLink} onChange={handleQuestionImageChange}></TextField>
+    </Box>
+
     let videoEditor = editorDisabled ? "" : 
     <Box  className="horizontal-list-creator" paddingTop="2%">
         <TextField id="outlined-basic" label="Video Link" variant="outlined" value={videoLink} onChange={handleVideoChange}></TextField>
@@ -217,6 +230,7 @@ function GameCreator() {
             {questionEditor}
             {answerEditor}
             {imageEditor}
+            {questionImageEditor}
             {videoEditor}
         </Box>
 
