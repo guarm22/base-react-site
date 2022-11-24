@@ -4,8 +4,6 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 
-console.log("\nNEW SERVER\n")
-
 // CREATE OUR SERVER
 dotenv.config()
 const PORT = process.env.PORT || 4000;

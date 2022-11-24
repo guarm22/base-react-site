@@ -18,18 +18,12 @@ function Banner() {
     } 
 
     function handleButton(page) {
-
-        store.setPage(page)
         navigate(page, {})
     }
 
-    let loginButton = store.page!="/login" ? <Button variant="contained" onClick={() => handleButton("/login")}>Login</Button> :
-    <Box></Box>
-    let signUpButton = store.page!="/signUp" ? <Button variant="contained" onClick={() => handleButton("/signUp")}>Sign Up</Button> :
-    <Box></Box>
-
+    let loginButton = <Button variant="contained" onClick={() => handleButton("/login")}>Login</Button>
+    let signUpButton = <Button variant="contained" onClick={() => handleButton("/signUp")}>Sign Up</Button>
     let accBox = <Box marginRight="10px">{loginButton} {signUpButton}</Box>
-
 
     if(auth.loggedIn) {
         accBox = <Box className="horizontal-list">
@@ -42,8 +36,7 @@ function Banner() {
     return (
         <Box sx={{ flexGrow: 1 }} >
             <Box className="banner">
-
-            <Button color="inherit" variant="outlined" onClick={() => handleButton("/")}>Gameshow</Button>    
+            <Button color="inherit" variant="outlined" onClick={() => handleButton("/")}>Website</Button>    
             {accBox}        
             </Box>
         </Box>
